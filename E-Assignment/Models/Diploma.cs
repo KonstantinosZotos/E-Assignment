@@ -8,6 +8,9 @@ namespace E_Assignment.Models
 {
     public class Diploma
     {
+        public Diploma(){
+            this.Status = "Pending";
+        }
         public int Id { get; set; }
         [Required]     
         [Display(Name = "Title")]
@@ -18,7 +21,7 @@ namespace E_Assignment.Models
         public string Description { get; set; }
         [Display(Name = "Student Name")]
         public string StudentName { get; set; }
-        public int Status { get; set; }
+        public string Status { get; set; }
         [Display(Name = "File")]
         public string FilePath { get; set; }
     }

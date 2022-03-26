@@ -31,9 +31,13 @@ namespace E_Assignment.Models
             return diploma;
         }
 
-        public IEnumerable<Diploma> GetAllDiplomas()
+        public IEnumerable<Diploma> GetAllDiplomasForTeachers(string username)
+        {           
+            return context.Diplomas.Where(b => b.TeacherName == username);
+        }
+        public IEnumerable<Diploma> GetAllDiplomasForStudents(string username)
         {
-            return context.Diplomas;
+            return context.Diplomas.Where(b => b.StudentName == username);
         }
 
         public Diploma GetDiploma(int Id)

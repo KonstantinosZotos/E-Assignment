@@ -38,9 +38,8 @@ namespace E_Assignment.Controllers
         [Authorize(Roles = "Teacher")]
         public ViewResult ShowDiplomas()
         {
-            var userName = User.FindFirstValue(ClaimTypes.Name);
-            ViewBag.UserName = userName;
-            var model = _diplomaRepository.GetAllDiplomas();
+            var userName = User.FindFirstValue(ClaimTypes.Name);            
+            var model = _diplomaRepository.GetAllDiplomasForTeachers(userName);
             if(model == null)
             {
                 ViewBag.ErrorMessage = $"No diploma is created yet";                
@@ -51,9 +50,8 @@ namespace E_Assignment.Controllers
         [Authorize(Roles = "Student")]
         public ViewResult ShowDiplomasStudents()
         {
-            var userName = User.FindFirstValue(ClaimTypes.Name);
-            ViewBag.UserName = userName;
-            var diploma = _diplomaRepository.GetAllDiplomas();
+            var userName = User.FindFirstValue(ClaimTypes.Name);            
+            var diploma = _diplomaRepository.GetAllDiplomasForStudents(userName);
             if (diploma == null)
             {
                 ViewBag.ErrorMessage = $"No diploma is created yet";

@@ -8,31 +8,18 @@
 
 @foreach (var diploma in Model)
 {
-    if (ViewBag.UserName == diploma.StudentName)
-    {
-        <div class="card mt-3">
-            <div class="card-header">
-                <label class="form-group">@diploma.Title</label>
-            </div>
-            <div class="card-body">
-                <label class="form-group">
-                    @if (diploma.Status == 0)
-                    {
-                        <text>Pending</text>
-                    }
-                    else if (diploma.Status == 1)
-                    {
-                        <text>Assigned</text>
-                    }
-                    else
-                    {
-                        <text>Completed</text>
-                    }
-                </label>
-            </div>
-            <div class="card-footer">
-                <a asp-action="ViewDiploma" asp-route-id="@diploma.Id" asp-controller="Diploma" class="btn btn-dark" style="width:auto">View</a>
-            </div>
+        
+    <div class="card mt-3">
+        <div class="card-header">
+            <label class="form-group">@diploma.Title</label>
         </div>
-    }
+        <div class="card-body">
+            <label class="form-group">
+                <text>@diploma.Status</text>
+            </label>
+        </div>
+        <div class="card-footer">
+            <a asp-action="ViewDiploma" asp-route-id="@diploma.Id" asp-controller="Diploma" class="btn btn-dark" style="width:auto">View</a>
+        </div>
+    </div>    
 }

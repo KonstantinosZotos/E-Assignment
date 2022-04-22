@@ -115,7 +115,7 @@ namespace E_Assignment.Migrations
                     b.Property<string>("StudentName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TeacherName")
+                    b.Property<string>("Teachers")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")

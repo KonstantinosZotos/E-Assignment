@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using E_Assignment.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -19,8 +20,28 @@ namespace E_Assignment.ViewModels
         public string Description { get; set; }
         [Display(Name = "Student Name")]
         public string StudentName { get; set; }
-        public int Status { get; set; }
+        public string Status { get; set; }
         [Display(Name = "File")]
-        public IFormFile FilePath { get; set; }
+        public IFormFile File { get; set; }
+
+        public static explicit operator DiplomaViewModel(Diploma d)
+        {
+            try
+            {
+                DiplomaViewModel diplomaVM = new DiplomaViewModel();
+                diplomaVM.Id = d.Id;
+                diplomaVM.Title = d.Title;
+                diplomaVM.TeacherName = d.TeacherName;
+                diplomaVM.Description = d.Description;
+                diplomaVM.StudentName = d.StudentName;
+                diplomaVM.Status = d.Status;
+                return diplomaVM;
+            }
+            catch
+            {
+                throw new NotImplementedException();
+            }
+            
+        }
     }
 }

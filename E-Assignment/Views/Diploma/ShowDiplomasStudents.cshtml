@@ -3,12 +3,11 @@
 }
 
 <h1>@ViewBag.ErrorMessage</h1>
-@model IEnumerable<Diploma>
-
+@model IEnumerable<E_Assignment.ViewModels.DiplomaViewModel>
 
 @foreach (var diploma in Model)
 {
-        
+
     <div class="card mt-3">
         <div class="card-header">
             <label class="form-group">@diploma.Title</label>
@@ -21,5 +20,5 @@
         <div class="card-footer">
             <a asp-action="ViewDiploma" asp-route-id="@diploma.Id" asp-controller="Diploma" class="btn btn-dark" style="width:auto">View</a>
         </div>
-    </div>    
+    </div>
 }

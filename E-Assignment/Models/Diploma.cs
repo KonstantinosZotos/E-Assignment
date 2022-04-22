@@ -15,14 +15,14 @@ namespace E_Assignment.Models
         [Required]     
         [Display(Name = "Title")]
         public string Title { get; set; }
-        [Display(Name = "Teacher Name")]
+        [Display(Name = "TeacherName")]
         public string TeacherName { get; set; }
         [Display(Name = "Description")]
         public string Description { get; set; }
         [Display(Name = "Student Name")]
         public string StudentName { get; set; }
         public string Status { get; set; }
-        [Display(Name = "File")]
+        [Display(Name = "FilePath")]
         public string FilePath { get; set; }
     }
 }

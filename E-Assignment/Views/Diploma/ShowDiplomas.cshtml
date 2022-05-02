@@ -8,18 +8,18 @@
 
 @foreach (var diploma in Model)
 {
-    <div class="card mt-3">
-        <div class="card-header">
-            <label hidden>@diploma.Id</label>
-            <label class="form-group">@diploma.Title</label>
-        </div>
-        <div class="card-body">
-            <label class="form-group">                
-                <text>@diploma.Status</text>                                                                                  
-            </label>
-        </div>
-        <div class="card-footer">
-            <a asp-action="EditDiploma" asp-route-id="@diploma.Id" asp-controller="Diploma" class="btn btn-dark" style="width:auto">Edit</a>
-        </div>
+<div class="card mt-3">
+    <div class="card-header">
+        <label hidden>@diploma.Id</label>
+        <label class="form-group">@diploma.Title</label>
     </div>
+    <div class="card-body">
+        <label class="form-group">
+            <text>@diploma.Status</text>
+        </label>
+    </div>    
+    <div class="card-footer">
+        <a asp-action="EditDiploma" asp-route-id="@diploma.Id" asp-controller="Diploma" class="btn btn-dark" style="width:auto">Edit</a>
+    </div>
+</div>
 }

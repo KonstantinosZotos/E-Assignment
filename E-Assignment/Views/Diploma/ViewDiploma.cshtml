@@ -10,28 +10,28 @@
     <div class="card mt-3">
         <div class="card-header">
             <label hidden>@Model.Id</label>
-            <input hidden class="form-control" asp-for="@Model.TeacherName" value="@Model.TeacherName" />
-            <input hidden class="form-control" asp-for="@Model.Status" value="@Model.Status" />
+            <input hidden class="form-control" asp-for="TeacherName" value="@Model.TeacherName" />
+            <input hidden class="form-control" asp-for="Status" value="@Model.Status" />
             <div class="form-group col-md-6">
                 <label asp-for="Title"></label>
-                <input class="form-control" asp-for="@Model.Title" value="@Model.Title" readonly/>
+                <input class="form-control" asp-for="Title" value="@Model.Title" readonly/>
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
         </div>
         <div class="card-body">
             <div class="form-group col-md-6">
                 <label asp-for="StudentName"></label>
-                <input class="form-control" asp-for="@Model.StudentName" value="@Model.StudentName" readonly/>
+                <input class="form-control" asp-for="StudentName" value="@Model.StudentName" readonly/>
                 <span asp-validation-for="StudentName" class="text-danger"></span>
             </div>
             <div class="form-group col-md-6">
                 <label asp-for="Description"></label>
-                <textarea class="form-control" rows="3" asp-for="@Model.Description" readonly>@Model.Description</textarea>
+                <textarea class="form-control" rows="3" asp-for="Description" readonly>@Model.Description</textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group col-md-6">
-                <label asp-for="@Model.File"></label>
-                <input type="file" class="form-control-file" />
+                <label asp-for="File"></label>
+                <input asp-for="File" class="form-control-file" />
             </div>
         </div>
         <div class="card-footer">

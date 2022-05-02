@@ -24,6 +24,7 @@ namespace E_Assignment.ViewModels
         [Display(Name = "File")]
         public IFormFile File { get; set; }
 
+        //Casting method
         public static explicit operator DiplomaViewModel(Diploma d)
         {
             try

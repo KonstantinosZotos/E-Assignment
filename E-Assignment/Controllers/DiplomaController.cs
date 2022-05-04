@@ -75,8 +75,14 @@ namespace E_Assignment.Controllers
         public IActionResult EditDiploma(int id)
         {
             
-            Diploma diploma = _diplomaRepository.GetDiploma(id);
+            Diploma diploma = _diplomaRepository.GetDiploma(id);                        
             return View(diploma);
+        }
+        public FileResult DownloadFile(string fileName)
+        {
+            string filePath = Path.Combine(this.hostingEnvironment.WebRootPath, "diplomas/") + fileName;
+            byte[] bytes = System.IO.File.ReadAllBytes(filePath);        
+            return File(bytes, "application/octet-stream", fileName);
         }
         
         [HttpPost]
@@ -93,7 +99,7 @@ namespace E_Assignment.Controllers
         {
             Diploma diploma = _diplomaRepository.GetDiploma(id);            
             DiplomaViewModel diplomaVM = new DiplomaViewModel();
-            diplomaVM = (DiplomaViewModel)diploma;            
+            diplomaVM = (DiplomaViewModel)diploma;                     
             return View(diplomaVM);            
         }
 

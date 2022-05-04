@@ -5,21 +5,33 @@
 <h1>@ViewBag.ErrorMessage</h1>
 @model IEnumerable<E_Assignment.ViewModels.DiplomaViewModel>
 
+<h1>My diplomas</h1>
+<div class="album py-5">
+    <div class="container">
 
-@foreach (var diploma in Model)
-{
-<div class="card mt-3">
-    <div class="card-header">
-        <label hidden>@diploma.Id</label>
-        <label class="form-group">@diploma.Title</label>
-    </div>
-    <div class="card-body">
-        <label class="form-group">
-            <text>@diploma.Status</text>
-        </label>
-    </div>    
-    <div class="card-footer">
-        <a asp-action="EditDiploma" asp-route-id="@diploma.Id" asp-controller="Diploma" class="btn btn-dark" style="width:auto">Edit</a>
+        <div class="row">
+            @foreach (var diploma in Model)
+            {
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <label hidden>@diploma.Id</label>
+                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: @diploma.Title" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="10%" y="50%" fill="#eceeef" dy=".3em">@diploma.Title</text></svg>
+
+                        <div class="card-body">
+                            <p class="card-text">@diploma.Description</p>
+                            <p class="card-text">Student: @diploma.StudentName</p>                            
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                    <a asp-action="EditDiploma" asp-route-id="@diploma.Id" asp-controller="Diploma" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                </div>
+                                <small class="text-muted">@diploma.Status</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
     </div>
 </div>
-}

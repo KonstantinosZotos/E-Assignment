@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_Assignment.Migrations
 {
     [DbContext(typeof(E_AssignmentDbContext))]
-    [Migration("20220205140317_Create Diploma")]
-    partial class CreateDiploma
+    [Migration("20220507114511_CreateDiploma&Teachers")]
+    partial class CreateDiplomaTeachers
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -111,13 +111,10 @@ namespace E_Assignment.Migrations
                     b.Property<string>("FilePath")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<string>("StudentName")
+                    b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Teachers")
+                    b.Property<string>("StudentName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
@@ -127,6 +124,26 @@ namespace E_Assignment.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Diplomas");
+                });
+
+            modelBuilder.Entity("E_Assignment.Models.Teacher", b =>
+                {
+                    b.Property<int>("TeacherId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("DiplomaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("TeacherId");
+
+                    b.HasIndex("DiplomaId");
+
+                    b.ToTable("Teachers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -264,6 +281,17 @@ namespace E_Assignment.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("E_Assignment.Models.Teacher", b =>
+                {
+                    b.HasOne("E_Assignment.Models.Diploma", "Diploma")
+                        .WithMany("Teachers")
+                        .HasForeignKey("DiplomaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Diploma");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -313,6 +341,11 @@ namespace E_Assignment.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("E_Assignment.Models.Diploma", b =>
+                {
+                    b.Navigation("Teachers");
                 });
 #pragma warning restore 612, 618
         }

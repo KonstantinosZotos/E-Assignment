@@ -1,20 +1,21 @@
 ﻿@model Diploma
-@{ 
+@{
     ViewBag.Title = "Create Diploma";
 }
 
 <h1> @ViewBag.Title</h1>
 <form asp-controller="Diploma" method="post">
-    <div asp-validation-summary="All" class="text-danger"></div>            
+    <div asp-validation-summary="All" class="text-danger"></div>
     <div class="form-group col-md-6">
         <label asp-for="Title"></label>
-        <input class="form-control" asp-for="@Model.Title"/>
+        <input class="form-control" asp-for="@Model.Title" />
         <span asp-validation-for="Title" class="text-danger"></span>
     </div>
-    <div class="form-group col-md-6">
-        <label asp-for="TeacherName"></label>
-        <input class="form-control" asp-for="@Model.TeacherName" value="@ViewBag.UserName" readonly/>
-        <span asp-validation-for="TeacherName" class="text-danger"></span>
+    <div class="form-group col-md-6" id="inputList">
+        <label asp-for="Teachers"></label>
+        <input class="form-control" asp-for="Teachers[0].Name" value="@ViewBag.UserName" readonly />
+        <a class="btn btn-outline-secondary mt-2" id="addInput" title="Add teacher"><img src="/images/add-icon.png" /></a>
+        <span asp-validation-for="Teachers[0].Name" class="text-danger"></span>
     </div>
     <div class="form-group col-md-6">
         <label asp-for="StudentName"></label>
@@ -23,10 +24,29 @@
     </div>
     <div class="form-group col-md-6">
         <label asp-for="Description"></label>
-        <textarea class="form-control" rows="3" asp-for="@Model.Description" ></textarea>
+        <textarea class="form-control" rows="3" asp-for="@Model.Description"></textarea>
         <span asp-validation-for="Description" class="text-danger"></span>
-    </div>    
+    </div>
     <div class="form-group col-md-6">
         <input type="submit" value="Create" class="btn btn-dark" style="width:auto" />
     </div>
 </form>
+
+@section Scripts{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {            
+            var j = 1;
+            $("#addInput").click(function () {
+                $("#inputList").append('<div class="mt-2"><input class="form-control" id="Teachers_' + j + '__Name" name="Teachers[' + j + '].Name"><a class="btn btn-outline-secondary mt-1" id="deleteInput" title="Delete teacher"><img src="/images/remove-icon.png" /></a></div>');
+                j++;
+            });
+            $('#inputList').on('click', "#deleteInput", function () {
+                $(this).parent('div').remove();
+                j=j-1;
+
+            });
+
+        });
+    </script>
+}

@@ -14,8 +14,8 @@ namespace E_Assignment.ViewModels
         [Required]
         [Display(Name = "Title")]
         public string Title { get; set; }
-        [Display(Name = "Teacher Name")]
-        public string TeacherName { get; set; }
+        [Display(Name = "Teachers")]
+        public List<Teacher> Teachers { get; set; }
         [Display(Name = "Description")]
         public string Description { get; set; }
         [Display(Name = "Student Name")]
@@ -32,7 +32,7 @@ namespace E_Assignment.ViewModels
                 DiplomaViewModel diplomaVM = new DiplomaViewModel();
                 diplomaVM.Id = d.Id;
                 diplomaVM.Title = d.Title;
-                diplomaVM.TeacherName = d.TeacherName;
+                diplomaVM.Teachers = d.Teachers;
                 diplomaVM.Description = d.Description;
                 diplomaVM.StudentName = d.StudentName;
                 diplomaVM.Status = d.Status;

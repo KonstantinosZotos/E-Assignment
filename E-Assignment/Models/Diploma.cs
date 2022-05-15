@@ -15,8 +15,8 @@ namespace E_Assignment.Models
         [Required]     
         [Display(Name = "Title")]
         public string Title { get; set; }
-        [Display(Name = "TeacherName")]
-        public string TeacherName { get; set; }
+        [Display(Name = "Teachers")]
+        public List<Teacher> Teachers { get; set; }
         [Display(Name = "Description")]
         public string Description { get; set; }
         [Display(Name = "Student Name")]

@@ -14,8 +14,8 @@ namespace E_Assignment.Models
             this.context = context;
         }
         public Diploma Add(Diploma diploma)
-        {
-            context.Diplomas.Add(diploma);
+        {            
+            context.Diplomas.Add(diploma);                                    
             context.SaveChanges();
             return diploma;
         }
@@ -32,8 +32,10 @@ namespace E_Assignment.Models
         }
         
         public IEnumerable<Diploma> GetAllDiplomasForTeachers(string username)
-        {           
-            return context.Diplomas.Where(b => b.TeacherName == username);
+        {
+            Teacher t = new Teacher();
+            t.Name = username;
+            return context.Diplomas.Where(b => b.Teachers.Contains(t));
         }
         public IEnumerable<Diploma> GetAllDiplomasForStudents(string username)
         {

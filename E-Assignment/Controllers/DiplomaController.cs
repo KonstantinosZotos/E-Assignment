@@ -48,7 +48,7 @@ namespace E_Assignment.Controllers
         {
             var userName = User.FindFirstValue(ClaimTypes.Name);            
             var diploma = _diplomaRepository.GetAllDiplomasForTeachers(userName);
-            IEnumerable<DiplomaViewModel> diplomaVM = diploma.Select(diplomaVM => new DiplomaViewModel { Id = diplomaVM.Id, Title = diplomaVM.Title, TeacherName = diplomaVM.TeacherName, Description = diplomaVM.Description, StudentName = diplomaVM.StudentName, Status = diplomaVM.Status });
+            IEnumerable<DiplomaViewModel> diplomaVM = diploma.Select(diplomaVM => new DiplomaViewModel { Id = diplomaVM.Id, Title = diplomaVM.Title, Teachers = diplomaVM.Teachers, Description = diplomaVM.Description, StudentName = diplomaVM.StudentName, Status = diplomaVM.Status });
             if (diploma == null)
             {
                 ViewBag.ErrorMessage = $"No diploma is created yet";                
@@ -61,7 +61,7 @@ namespace E_Assignment.Controllers
         {
             var userName = User.FindFirstValue(ClaimTypes.Name);            
             var diploma = _diplomaRepository.GetAllDiplomasForStudents(userName);            
-            IEnumerable<DiplomaViewModel> diplomaVM = diploma.Select(diplomaVM => new DiplomaViewModel { Id = diplomaVM.Id, Title = diplomaVM.Title, TeacherName = diplomaVM.TeacherName, Description = diplomaVM.Description, StudentName = diplomaVM.StudentName, Status = diplomaVM.Status});
+            IEnumerable<DiplomaViewModel> diplomaVM = diploma.Select(diplomaVM => new DiplomaViewModel { Id = diplomaVM.Id, Title = diplomaVM.Title, Teachers = diplomaVM.Teachers, Description = diplomaVM.Description, StudentName = diplomaVM.StudentName, Status = diplomaVM.Status});
             if (diploma == null)
             {
                 ViewBag.ErrorMessage = $"No diploma is created yet";
@@ -123,7 +123,7 @@ namespace E_Assignment.Controllers
                 {
                     Id = diplomaVM.Id,
                     Title = diplomaVM.Title,
-                    TeacherName = diplomaVM.TeacherName,
+                    Teachers = diplomaVM.Teachers,
                     Description = diplomaVM.Description,
                     StudentName = diplomaVM.StudentName,
                     Status = diplomaVM.Status,

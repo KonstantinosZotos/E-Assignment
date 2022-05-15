@@ -25,5 +25,6 @@ namespace E_Assignment.Data
             // Add your customizations after calling base.OnModelCreating(builder);
         }
         public DbSet<Diploma> Diplomas { get; set; }
+        public DbSet<Teacher> Teachers { get; set; }
     }
 }

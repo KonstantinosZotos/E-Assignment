@@ -1,4 +1,5 @@
 ﻿using E_Assignment.Data;
+using E_Assignment.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +36,25 @@ namespace E_Assignment.Models
         {
             Teacher t = new Teacher();
             t.Name = username;
-            return context.Diplomas.Where(b => b.Teachers.Contains(t));
+            List<Teacher> teacherList = new List<Teacher>();
+            teacherList.Add(t);
+            var teachers = context.Teachers.Where(a => a.Name.Contains(t.Name)).Select(a => a.DiplomaId).ToArray();
+            var query = context.Diplomas.Join(
+                context.Teachers,
+                diploma => diploma.Id,
+                teacher => teacher.DiplomaId,
+                (diploma, teacher) => new Diploma()
+                {
+                    Id = diploma.Id,
+                    Title = diploma.Title,
+                    Description = diploma.Description, 
+                    Teachers = teacherList,
+                    StudentName = diploma.StudentName,
+                    Status = diploma.Status,
+                    FilePath = diploma.FilePath
+                }).Where(a => a.Teachers[0].Name.Contains(t.Name));   
+            
+            return query;
         }
         public IEnumerable<Diploma> GetAllDiplomasForStudents(string username)
         {

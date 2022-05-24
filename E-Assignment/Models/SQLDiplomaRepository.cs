@@ -1,5 +1,6 @@
 ﻿using E_Assignment.Data;
 using E_Assignment.ViewModels;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,31 +31,10 @@ namespace E_Assignment.Models
                 context.SaveChanges();
             }
             return diploma;
-        }
-        
+        }        
         public IEnumerable<Diploma> GetAllDiplomasForTeachers(string username)
-        {
-            Teacher t = new Teacher();
-            t.Name = username;
-            List<Teacher> teacherList = new List<Teacher>();
-            teacherList.Add(t);
-            var teachers = context.Teachers.Where(a => a.Name.Contains(t.Name)).Select(a => a.DiplomaId).ToArray();
-            var query = context.Diplomas.Join(
-                context.Teachers,
-                diploma => diploma.Id,
-                teacher => teacher.DiplomaId,
-                (diploma, teacher) => new Diploma()
-                {
-                    Id = diploma.Id,
-                    Title = diploma.Title,
-                    Description = diploma.Description, 
-                    Teachers = teacherList,
-                    StudentName = diploma.StudentName,
-                    Status = diploma.Status,
-                    FilePath = diploma.FilePath
-                }).Where(a => a.Teachers[0].Name.Contains(t.Name));   
-            
-            return query;
+        {                                                            
+            return context.Diplomas.Include(d => d.Teachers).Where(d => d.Teachers.Any(t => t.Name == username));
         }
         public IEnumerable<Diploma> GetAllDiplomasForStudents(string username)
         {

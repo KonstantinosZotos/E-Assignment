@@ -47,7 +47,7 @@ namespace E_Assignment.Controllers
         public ViewResult ShowDiplomas()
         {
             var userName = User.FindFirstValue(ClaimTypes.Name);            
-            var diploma = _diplomaRepository.GetAllDiplomasForTeachers(userName);
+            var diploma = _diplomaRepository.GetAllDiplomasForTeachers(userName);            
             IEnumerable<DiplomaViewModel> diplomaVM = diploma.Select(diplomaVM => new DiplomaViewModel { Id = diplomaVM.Id, Title = diplomaVM.Title, Teachers = diplomaVM.Teachers, Description = diplomaVM.Description, StudentName = diplomaVM.StudentName, Status = diplomaVM.Status });
             if (diploma == null)
             {
@@ -77,7 +77,7 @@ namespace E_Assignment.Controllers
             
             Diploma diploma = _diplomaRepository.GetDiploma(id);                        
             return View(diploma);
-        }
+        }        
         public FileResult DownloadFile(string fileName)
         {
             string filePath = Path.Combine(this.hostingEnvironment.WebRootPath, "diplomas/") + fileName;

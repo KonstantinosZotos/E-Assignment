@@ -30,13 +30,22 @@
                         <label asp-for="Description"></label>
                         <textarea class="form-control" rows="3" asp-for="@Model.Description">@Model.Description</textarea>
                         <span asp-validation-for="Description" class="text-danger"></span>
-                    </div>
+                    </div>                    
                     <div class="mb-1">
                         <label>File</label>
-                        <label>@Model.FilePath</label>
-                        <span asp-validation-for="FilePath" class="text-danger"></span>
-                        @Html.ActionLink("Dowload", "DownloadFile", new {fileName = Model.FilePath})
-                    </div>
+                        @if (Model.FilePath != null)
+                        {
+                            <label>@Model.FilePath</label>
+                            <span asp-validation-for="FilePath" class="text-danger"></span>
+                            Html.ActionLink("Dowload", "DownloadFile", new { fileName = Model.FilePath });
+                        }
+                        else
+                        {
+                            <div>
+                                <small class="text-muted">There is no file uploaded.</small>
+                            </div>                                                    
+                        }
+                    </div>                   
                     <div class="d-flex justify-content-between align-items-center mt-3">
                         <div class="btn-group">
                             <button type="submit" class="btn btn-sm btn-outline-secondary">Update</button>

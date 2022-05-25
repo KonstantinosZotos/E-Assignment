@@ -19,7 +19,7 @@
                     <div class="mb-1" id="inputList">
                         <label asp-for="Teachers"></label>
                         <input class="form-control" asp-for="Teachers[0].Name" value="@ViewBag.UserName" readonly />
-                        <a class="btn btn-outline-secondary mt-2" id="addInput" title="Add teacher"><img src="/images/add-icon.png" /></a>
+                        <a class="btn btn-outline-secondary mt-2" id="addInput" title="Add teacher"><img src="/images/add-icon.png"/></a>
                         <span asp-validation-for="Teachers[0].Name" class="text-danger"></span>
                     </div>
                     <div class="mb-1">

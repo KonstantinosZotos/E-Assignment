@@ -97,7 +97,7 @@ namespace E_Assignment.Controllers
         [Authorize(Roles = "Student")]
         public IActionResult ViewDiploma(int id)
         {
-            Diploma diploma = _diplomaRepository.GetDiploma(id);            
+            var diploma = _diplomaRepository.GetDiploma(id);            
             DiplomaViewModel diplomaVM = new DiplomaViewModel();
             diplomaVM = (DiplomaViewModel)diploma;                     
             return View(diplomaVM);            

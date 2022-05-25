@@ -15,7 +15,7 @@
                         <label hidden>@Model.Id</label>
                         <input hidden class="form-control" asp-for="Teachers" value="@Model.Teachers" />
                         <input hidden class="form-control" asp-for="Status" value="@Model.Status" />
-                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: @Model.Title" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="10%" y="50%" fill="#eceeef" dy=".3em">@Model.Title</text></svg>
+                        <svg class="bd-placeholder-img card-img-top" width="100%" height="100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: @Model.Title" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="10%" y="50%" fill="#eceeef" dy=".3em">@Model.Title</text></svg>
                         <input asp-for="Title" value="@Model.Title" hidden />
                         <div class="card-body">
                             <div class="form-group col-md-6">
@@ -23,7 +23,7 @@
                                 <label>@Model.StudentName</label>
                                 <input asp-for="StudentName" value="@Model.StudentName" hidden />
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-12">
                                 <label class="font-weight-bold" asp-for="Description"></label>
                                 <label>@Model.Description</label>
                                 <input asp-for="Description" value="@Model.Description" hidden />

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace E_Assignment.Controllers
@@ -20,8 +21,28 @@ namespace E_Assignment.Controllers
         }
         [Authorize]
         public IActionResult Index()
-        {            
-            return View();
+        {
+            string page = "Index";
+            string controller = "Home";
+            var role = User.FindFirstValue(ClaimTypes.Role);
+
+            if (role.Equals("Student"))
+            {
+                page = "ShowDiplomasStudents";
+                controller = "Diploma";
+            }
+            else if (role.Equals("Teacher"))
+            {
+                page = "ShowDiplomas";
+                controller = "Diploma";
+            }
+            else if (role.Equals("Admin"))
+            {
+                page = "ListUsers";
+                controller = "Administrator";
+            }
+
+            return RedirectToAction(page,controller);
         }
 
         public IActionResult Privacy()

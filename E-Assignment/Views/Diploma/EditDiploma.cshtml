@@ -37,7 +37,7 @@
                         {
                             <label>@Model.FilePath</label>
                             <span asp-validation-for="FilePath" class="text-danger"></span>
-                            Html.ActionLink("Dowload", "DownloadFile", new { fileName = Model.FilePath });
+                            @Html.ActionLink("Dowload", "DownloadFile", new { fileName = Model.FilePath });
                         }
                         else
                         {

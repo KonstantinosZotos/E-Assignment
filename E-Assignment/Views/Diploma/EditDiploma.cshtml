@@ -5,6 +5,7 @@
 <h1>@ViewBag.ErrorMessage</h1>
 @model Diploma
 
+<link rel="stylesheet" href="~/css/editDiploma.css" />
 
 <form asp-controller="Diploma" method="post">
     <div asp-validation-summary="All" class="text-danger"></div>            
@@ -15,29 +16,31 @@
                 <svg class="bd-placeholder-img card-img-top" width="100%" height="50" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: @Model.Title" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="5%" y="50%" fill="#eceeef" dy=".3em">@Model.Id</text></svg>
                 <div class="card-body">
                     <div class="mb-1">
-                        <label asp-for="Title"></label>
+                        <label class="font-weight-bold" asp-for="Title"></label>
                         <input class="form-control" asp-for="@Model.Title" value="@Model.Title" />
                         <span asp-validation-for="Title" class="text-danger"></span>
                         <input hidden class="form-control" asp-for="@Model.Teachers" value="@Model.Teachers" />
                         <input hidden class="form-control" asp-for="@Model.Status" value="@Model.Status" />
                     </div>
                     <div class="mb-1">
-                        <label asp-for="StudentName"></label>
+                        <label class="font-weight-bold" asp-for="StudentName"></label>
                         <input class="form-control" asp-for="@Model.StudentName" value="@Model.StudentName" />
                         <span asp-validation-for="StudentName" class="text-danger"></span>
                     </div>
                     <div class="mb-1">
-                        <label asp-for="Description"></label>
+                        <label class="font-weight-bold" asp-for="Description"></label>
                         <textarea class="form-control" rows="3" asp-for="@Model.Description">@Model.Description</textarea>
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>                    
                     <div class="mb-1">
-                        <label>File</label>
+                        <label class="font-weight-bold">File</label>
+                        <br />
                         @if (Model.FilePath != null)
-                        {
-                            <label>@Model.FilePath</label>
+                        {                            
+                            <label>@Model.FilePath.Remove(0, 37)</label>   
+                            <input hidden asp-for="@Model.FilePath" value="@Model.FilePath"/>
                             <span asp-validation-for="FilePath" class="text-danger"></span>
-                            @Html.ActionLink("Dowload", "DownloadFile", new { fileName = Model.FilePath });
+                            @Html.ActionLink("Dowload", "DownloadFile", new { fileName = Model.FilePath }, new { @class="download"});
                         }
                         else
                         {
@@ -49,6 +52,7 @@
                     <div class="d-flex justify-content-between align-items-center mt-3">
                         <div class="btn-group">
                             <button type="submit" class="btn btn-sm btn-outline-secondary">Update</button>
+                            <a asp-action="DeleteDiploma" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-danger">Delete</a>
                             <a asp-action="ShowDiplomas" class="btn btn-sm btn-outline-secondary">Cancel</a>
                         </div>
                         <small class="text-muted">File</small>

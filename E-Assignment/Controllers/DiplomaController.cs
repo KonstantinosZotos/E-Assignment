@@ -98,15 +98,30 @@ namespace E_Assignment.Controllers
         public IActionResult ViewDiploma(int id)
         {
             var diploma = _diplomaRepository.GetDiploma(id);            
-            DiplomaViewModel diplomaVM = new DiplomaViewModel();
+            DiplomaViewModel diplomaVM = new DiplomaViewModel();            
             diplomaVM = (DiplomaViewModel)diploma;                     
             return View(diplomaVM);            
         }
 
+        //Enable the students to upload their diplomas
         [HttpPost]
         [Authorize(Roles = "Student")]       
         public IActionResult ViewDiploma(DiplomaViewModel diplomaVM)
-        {
+        {   
+            /*
+            //Deletes previous file
+            int id = diplomaVM.Id;
+            Diploma diplomaFile = _diplomaRepository.GetDiploma(id);
+            
+            if (diplomaFile.FilePath != null)
+            {
+                String rootFolder = @"C:\Users\konst\source\repos\E-Assignment\E-Assignment\wwwroot\diplomas\";                              
+                if (System.IO.File.Exists(Path.Combine(rootFolder, diplomaFile.FilePath)))
+                {
+                    System.IO.File.Delete(Path.Combine(rootFolder, diplomaFile.FilePath));
+                }
+            }
+*/
             if(ModelState.IsValid)
             {
                 string fileName = null;
@@ -133,6 +148,20 @@ namespace E_Assignment.Controllers
                 _diplomaRepository.Update(diploma);
             }            
             return RedirectToAction("ShowDiplomasStudents");
+        }
+        
+        [Authorize(Roles = "Teacher")]
+        public RedirectToActionResult DeleteDiploma(int id)
+        {
+            String rootFolder = @"C:\Users\konst\source\repos\E-Assignment\E-Assignment\wwwroot\diplomas\";
+            Diploma diploma = _diplomaRepository.GetDiploma(id);
+            _diplomaRepository.Delete(id);
+            if (System.IO.File.Exists(Path.Combine(rootFolder, diploma.FilePath)))
+            {
+                System.IO.File.Delete(Path.Combine(rootFolder, diploma.FilePath));
+            }
+            
+            return RedirectToAction("ShowDiplomas");
         }
 
     }

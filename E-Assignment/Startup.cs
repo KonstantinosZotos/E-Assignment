@@ -49,6 +49,7 @@ namespace E_Assignment
                     options.Filters.Add(new AuthorizeFilter(policy));
             });
             services.AddScoped<IDiplomaRepository, SQLDiplomaRepository>();
+            services.AddScoped<ITeacherRepository, SQLTeacherRepository>();
             services.AddAntiforgery(o => o.SuppressXFrameOptionsHeader = true);
         }
 

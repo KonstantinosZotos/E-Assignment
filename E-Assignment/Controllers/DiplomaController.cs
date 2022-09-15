@@ -23,11 +23,13 @@ namespace E_Assignment.Controllers
     public class DiplomaController : Controller
     {        
         private readonly IDiplomaRepository _diplomaRepository;
+        private readonly ITeacherRepository _teacherRepository;
         private readonly IHostingEnvironment hostingEnvironment;        
 
-        public DiplomaController(IDiplomaRepository diplomaRepository, IHostingEnvironment hostingEnvironment)
+        public DiplomaController(IDiplomaRepository diplomaRepository, IHostingEnvironment hostingEnvironment, ITeacherRepository teacherRepository)
         {
             _diplomaRepository = diplomaRepository;
+            _teacherRepository = teacherRepository;
             this.hostingEnvironment = hostingEnvironment;
         }
 
@@ -113,18 +115,19 @@ namespace E_Assignment.Controllers
         [HttpPost]
         [Authorize(Roles = "Student")]       
         public IActionResult ViewDiploma(DiplomaViewModel diplomaVM)
-        {               
-            if(ModelState.IsValid)
-            {
-                string fileName = null;
+        {
+            
+            if (ModelState.IsValid)
+            {                
                 string filePath = null;
                 if (diplomaVM.File != null)
                 {
-                    string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "diplomas");
-                    fileName = Guid.NewGuid().ToString() + "_" + diplomaVM.File.FileName;
-                    filePath = Path.Combine(uploadsFolder, fileName);
-                    diplomaVM.File.CopyTo(new FileStream(filePath, FileMode.Create));
+                    string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "diplomas");                    
+                    filePath = Path.Combine(uploadsFolder, diplomaVM.File.FileName);
+                    FileStream stream = new FileStream(filePath, FileMode.Create);
+                    diplomaVM.File.CopyTo(stream);
                     diplomaVM.Status = "Assigned";
+                    stream.Close();
                 }
                 Diploma diploma = new Diploma
                 {
@@ -136,7 +139,7 @@ namespace E_Assignment.Controllers
                     Status = diplomaVM.Status,
                     FilePath = filePath
                 };
-                diploma.FilePath = fileName;
+                diploma.FilePath = diplomaVM.File.FileName;
                 _diplomaRepository.Update(diploma);
             }            
             return RedirectToAction("ShowDiplomasStudents");
@@ -169,6 +172,19 @@ namespace E_Assignment.Controllers
         public RedirectToActionResult SignDiploma(int id, string password, string Reason, string Location, string Contact, IFormFile certificate)
         {
             var diploma = _diplomaRepository.GetDiploma(id);
+            //Updates database that teacher has signed the diploma
+            var diplomaTeachers = _diplomaRepository.GetDiplomaWithTeachers(id);
+            var diplomas = diplomaTeachers.ToArray();
+            var signInUser = User.FindFirstValue(ClaimTypes.Name);
+            foreach (var teacher in diplomas[0].Teachers)
+            {
+                if (teacher.Name.Equals(signInUser))
+                {
+                    teacher.Sign = true;
+                    _teacherRepository.Update(teacher);
+                    
+                }
+            }
             String rootFolder = hostingEnvironment.WebRootPath+ @"\diplomas\";
             String diplomaPath = rootFolder+diploma.FilePath;
             var pdfdocument = System.IO.File.OpenRead(diplomaPath);

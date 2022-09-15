@@ -37,7 +37,7 @@
                         <br />
                         @if (Model.FilePath != null)
                         {                            
-                            <label>@Model.FilePath.Remove(0, 37)</label>   
+                            <label>@Model.FilePath</label>   
                             <input hidden asp-for="@Model.FilePath" value="@Model.FilePath"/>
                             <span asp-validation-for="FilePath" class="text-danger"></span>                            
                         }

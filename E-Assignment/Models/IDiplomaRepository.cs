@@ -8,7 +8,8 @@ namespace E_Assignment.Models
 {
     public interface IDiplomaRepository
     {
-        Diploma GetDiploma(int Id);
+        Diploma GetDiploma(int id);
+        IEnumerable<Diploma> GetDiplomaWithTeachers(int id);
         IEnumerable<Diploma> GetAllDiplomasForTeachers(string username);
         IEnumerable<Diploma> GetAllDiplomasForStudents(string username);
         Diploma Add(Diploma diploma);

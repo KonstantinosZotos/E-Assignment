@@ -11,6 +11,12 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using E_Assignment.ViewModels;
+using Syncfusion.Pdf;
+using Syncfusion.Pdf.Graphics;
+using Syncfusion.Pdf.Parsing;
+using Syncfusion.Pdf.Security;
+using Syncfusion.Drawing;
+using Microsoft.AspNetCore.Http;
 
 namespace E_Assignment.Controllers
 {
@@ -107,21 +113,7 @@ namespace E_Assignment.Controllers
         [HttpPost]
         [Authorize(Roles = "Student")]       
         public IActionResult ViewDiploma(DiplomaViewModel diplomaVM)
-        {   
-            /*
-            //Deletes previous file
-            int id = diplomaVM.Id;
-            Diploma diplomaFile = _diplomaRepository.GetDiploma(id);
-            
-            if (diplomaFile.FilePath != null)
-            {
-                String rootFolder = @"C:\Users\konst\source\repos\E-Assignment\E-Assignment\wwwroot\diplomas\";                              
-                if (System.IO.File.Exists(Path.Combine(rootFolder, diplomaFile.FilePath)))
-                {
-                    System.IO.File.Delete(Path.Combine(rootFolder, diplomaFile.FilePath));
-                }
-            }
-*/
+        {               
             if(ModelState.IsValid)
             {
                 string fileName = null;
@@ -153,7 +145,7 @@ namespace E_Assignment.Controllers
         [Authorize(Roles = "Teacher")]
         public RedirectToActionResult DeleteDiploma(int id)
         {
-            String rootFolder = @"C:\Users\konst\source\repos\E-Assignment\E-Assignment\wwwroot\diplomas\";
+            String rootFolder = hostingEnvironment.WebRootPath + @"\diplomas\";
             Diploma diploma = _diplomaRepository.GetDiploma(id);
             _diplomaRepository.Delete(id);
             if (System.IO.File.Exists(Path.Combine(rootFolder, diploma.FilePath)))
@@ -164,5 +156,50 @@ namespace E_Assignment.Controllers
             return RedirectToAction("ShowDiplomas");
         }
 
+        [HttpGet]
+        [Authorize(Roles = "Teacher")]
+        public IActionResult PreviewDiploma(int id)
+        {
+            var diploma = _diplomaRepository.GetDiplomaWithTeachers(id);
+            return View(diploma);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Teacher")]
+        public RedirectToActionResult SignDiploma(int id, string password, string Reason, string Location, string Contact, IFormFile certificate)
+        {
+            var diploma = _diplomaRepository.GetDiploma(id);
+            String rootFolder = hostingEnvironment.WebRootPath+ @"\diplomas\";
+            String diplomaPath = rootFolder+diploma.FilePath;
+            var pdfdocument = System.IO.File.OpenRead(diplomaPath);
+
+            if (pdfdocument != null && pdfdocument.Length > 0 && certificate != null && certificate.Length > 0 && certificate.FileName.Contains(".pfx") && password != null && Location != null && Reason != null && Contact != null)
+            {
+                PdfLoadedDocument ldoc = new PdfLoadedDocument(pdfdocument);
+                PdfCertificate pdfCert = new PdfCertificate(certificate.OpenReadStream(), password);
+                PdfPageBase page = ldoc.Pages[0];
+                PdfSignature signature = new PdfSignature(ldoc, page, pdfCert, "Signature");
+                signature.Bounds = new RectangleF(new PointF(5, 5), new SizeF(200, 200));
+                signature.ContactInfo = Contact;
+                signature.LocationInfo = Location;
+                signature.Reason = Reason;
+                signature.Settings.DigestAlgorithm = DigestAlgorithm.SHA256;
+                MemoryStream stream = new MemoryStream();
+                ldoc.Save(stream);
+                stream.Position = 0;
+                ldoc.Close(true);
+
+                //Download the PDF document in the browser.
+                FileStreamResult fileStreamResult = new FileStreamResult(stream, "application/pdf");
+                fileStreamResult.FileDownloadName = "SignedPDF.pdf";
+                
+            }
+            else
+            {
+                ViewBag.lab = "NOTE: Fill all fields and then create PDF";
+                return RedirectToAction("PreviewDiploma");
+            }            
+            return RedirectToAction("ShowDiplomas");
+        }
     }
 }

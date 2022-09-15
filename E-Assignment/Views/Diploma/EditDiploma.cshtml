@@ -5,7 +5,7 @@
 <h1>@ViewBag.ErrorMessage</h1>
 @model Diploma
 
-<link rel="stylesheet" href="~/css/editDiploma.css" />
+<link rel="stylesheet" href="~/css/diploma.css" />
 
 <form asp-controller="Diploma" method="post">
     <div asp-validation-summary="All" class="text-danger"></div>            
@@ -39,8 +39,7 @@
                         {                            
                             <label>@Model.FilePath.Remove(0, 37)</label>   
                             <input hidden asp-for="@Model.FilePath" value="@Model.FilePath"/>
-                            <span asp-validation-for="FilePath" class="text-danger"></span>
-                            @Html.ActionLink("Dowload", "DownloadFile", new { fileName = Model.FilePath }, new { @class="download"});
+                            <span asp-validation-for="FilePath" class="text-danger"></span>                            
                         }
                         else
                         {

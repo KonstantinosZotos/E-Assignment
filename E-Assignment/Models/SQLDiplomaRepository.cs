@@ -41,9 +41,14 @@ namespace E_Assignment.Models
             return context.Diplomas.Where(b => b.StudentName == username);
         }
 
-        public Diploma GetDiploma(int Id)
+        public Diploma GetDiploma(int id)
+        {            
+            return context.Diplomas.Find(id);
+        }        
+
+        public IEnumerable<Diploma> GetDiplomaWithTeachers(int id)
         {
-            return context.Diplomas.Find(Id);
+            return context.Diplomas.Include(t => t.Teachers).Where(d => d.Id == id);
         }
 
         public Diploma Update(Diploma diplomaChanges)

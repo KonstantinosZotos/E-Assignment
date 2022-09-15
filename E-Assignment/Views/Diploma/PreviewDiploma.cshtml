@@ -1,0 +1,95 @@
+﻿@{
+    ViewBag.Title = "Preview Diploma";
+}
+
+<h1>@ViewBag.ErrorMessage</h1>
+<h2>@ViewBag.lab</h2>
+@model IEnumerable<Diploma>
+
+<link rel="stylesheet" href="~/css/diploma.css" />
+
+<form enctype="multipart/form-data" asp-controller="Diploma" asp-action="SignDiploma" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="album py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    @foreach (var diploma in Model)
+                    {
+                        <div class="card mb-4 shadow-sm">
+                            <label hidden>@diploma.Id</label>
+                            <input name="id" id="id" value="@diploma.Id" hidden />
+                            <svg class="bd-placeholder-img card-img-top" width="100%" height="100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: @diploma.Title" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="10%" y="50%" fill="#eceeef" dy=".3em">@diploma.Title</text></svg>
+                            <div class="card-body">
+                                <div class="form-group col-md-6">
+                                    <label class="font-weight-bold" asp-for="@diploma.StudentName"></label>
+                                    <label>@diploma.StudentName</label>
+                                    <input asp-for="@diploma.StudentName" value="@diploma.StudentName" hidden />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="font-weight-bold">Teachers</label>
+                                    @foreach (var teacher in diploma.Teachers)
+                                    {
+                                        <br />
+                                        <label>@teacher.Name</label>
+                                    }
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label class="font-weight-bold" asp-for="@diploma.Description"></label>
+                                    <br />
+                                    <label>@diploma.Description</label>
+                                    <input asp-for="@diploma.Description" value="@diploma.Description" hidden />
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <label class="font-weight-bold" asp-for="@diploma.FilePath"></label>
+                                    <br />
+                                    @if (diploma.FilePath != null)
+                                    {
+                                        <label>@diploma.FilePath.Remove(0, 37)</label>
+                                        <input hidden asp-for="@diploma.FilePath" value="@diploma.FilePath" />
+                                        <span asp-validation-for="@diploma.FilePath" class="text-danger"></span>
+                                        @Html.ActionLink("Dowload", "DownloadFile", new { fileName = diploma.FilePath }, new { @class = "download" });
+                                    }
+                                    else
+                                    {
+                                        <div>
+                                            <small class="text-muted">There is no file uploaded.</small>
+                                        </div>
+                                    }
+                                    <br />
+                                    <label class="font-weight-bold">Certificate</label>
+                                    <div class="custom-file">
+                                        <input type="file" id="certificate" name="certificate" accept="application/pfx" class="form-control custom-file-input" />
+                                        <label class="custom-file-label">Choose Cert...</label>
+                                    </div>
+                                    <input type="password" class="e-input" id="password" value="123456" textmode="Password" name="password">
+                                    <input type="text" class="e-input" id="Reason" value="anyreason" name="Reason">
+                                    <input type="text" class="e-input" id="Contact" value="anycontact" name="Contact">
+                                    <input type="text" class="e-input" id="Location" value="anylocation" name="Location">
+
+                                    <div class="d-flex justify-content-between align-items-center mt-4">
+                                        <div class="btn-group">
+                                            <button type="submit" class="btn btn-sm btn-outline-secondary">Sign</button>
+                                            <a asp-action="ShowDiplomas" class="btn btn-sm btn-outline-secondary">Cancel</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('.custom-file-input').on("change", function () {
+                var filename = $(this).val().split("\\").pop();
+                $(this).next('.custom-file-label').html(filename);
+            })
+        });
+    </script>
+}

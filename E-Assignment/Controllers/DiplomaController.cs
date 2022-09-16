@@ -164,6 +164,8 @@ namespace E_Assignment.Controllers
         public IActionResult PreviewDiploma(int id)
         {
             var diploma = _diplomaRepository.GetDiplomaWithTeachers(id);
+            var username = User.FindFirstValue(ClaimTypes.Name);
+            ViewData["Username"] = username;
             return View(diploma);
         }
 

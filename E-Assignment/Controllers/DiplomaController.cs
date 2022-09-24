@@ -171,29 +171,20 @@ namespace E_Assignment.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Teacher")]
-        public RedirectToActionResult SignDiploma(int id, string password, string Reason, string Location, string Contact, IFormFile certificate)
+        public ActionResult SignDiploma(string Browser, int id, string password, string Reason, string Location, string Contact, IFormFile certificate)
         {
             var diploma = _diplomaRepository.GetDiploma(id);
             //Updates database that teacher has signed the diploma
             var diplomaTeachers = _diplomaRepository.GetDiplomaWithTeachers(id);
             var diplomas = diplomaTeachers.ToArray();
-            var signInUser = User.FindFirstValue(ClaimTypes.Name);
-            foreach (var teacher in diplomas[0].Teachers)
-            {
-                if (teacher.Name.Equals(signInUser))
-                {
-                    teacher.Sign = true;
-                    _teacherRepository.Update(teacher);
-                    
-                }
-            }
+            var signInUser = User.FindFirstValue(ClaimTypes.Name);            
             String rootFolder = hostingEnvironment.WebRootPath+ @"\diplomas\";
             String diplomaPath = rootFolder+diploma.FilePath;
-            var pdfdocument = System.IO.File.OpenRead(diplomaPath);
+            var pdfdocument = System.IO.File.OpenRead(diplomaPath);           
 
             if (pdfdocument != null && pdfdocument.Length > 0 && certificate != null && certificate.Length > 0 && certificate.FileName.Contains(".pfx") && password != null && Location != null && Reason != null && Contact != null)
             {
-                PdfLoadedDocument ldoc = new PdfLoadedDocument(pdfdocument);
+                PdfLoadedDocument ldoc = new PdfLoadedDocument(pdfdocument);                
                 PdfCertificate pdfCert = new PdfCertificate(certificate.OpenReadStream(), password);
                 PdfPageBase page = ldoc.Pages[0];
                 PdfSignature signature = new PdfSignature(ldoc, page, pdfCert, "Signature");
@@ -202,20 +193,31 @@ namespace E_Assignment.Controllers
                 signature.LocationInfo = Location;
                 signature.Reason = Reason;
                 signature.Settings.DigestAlgorithm = DigestAlgorithm.SHA256;
-                MemoryStream stream = new MemoryStream();
-                ldoc.Save(stream);
-                stream.Position = 0;
+                MemoryStream stream = new MemoryStream();                
+                ldoc.Save(stream);                
                 ldoc.Close(true);
+                stream.Position = 0;                                         
+                FileStream streamFile = new FileStream(diplomaPath, FileMode.Create);
+                stream.CopyTo(streamFile);
+                stream.Close();
+                streamFile.Close();
 
-                //Download the PDF document in the browser.
-                FileStreamResult fileStreamResult = new FileStreamResult(stream, "application/pdf");
-                fileStreamResult.FileDownloadName = "SignedPDF.pdf";
-                
+                //Changes the status to signed for the specific teacher
+                foreach (var teacher in diplomas[0].Teachers)
+                {
+                    if (teacher.Name.Equals(signInUser))
+                    {
+                        teacher.Sign = true;
+                        _teacherRepository.Update(teacher);
+
+                    }
+                }
+
             }
             else
             {
-                ViewBag.lab = "NOTE: Fill all fields and then create PDF";
-                return RedirectToAction("PreviewDiploma");
+                ViewData["error"] = "Something wrong with the file or signature";
+                return RedirectToAction("PreviewDiploma", new {id = diploma.Id });
             }            
             return RedirectToAction("ShowDiplomas");
         }

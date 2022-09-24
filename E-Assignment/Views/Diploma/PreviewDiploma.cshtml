@@ -3,7 +3,7 @@
 }
 
 <h1>@ViewBag.ErrorMessage</h1>
-<h2>@ViewBag.lab</h2>
+
 @model IEnumerable<Diploma>
 
 <link rel="stylesheet" href="~/css/diploma.css" />
@@ -78,14 +78,15 @@
                                             else
                                             {
                                                 <label class="font-weight-bold">Certificate</label>
+                                                <h3>@ViewData["error"]</h3>
                                                 <div class="custom-file">
-                                                    <input type="file" id="certificate" name="certificate" accept="application/pfx" class="form-control custom-file-input" />
+                                                    <input type="file" id="certificate" name="certificate" accept="application/pfx" class="form-control custom-file-input" required/>
                                                     <label class="custom-file-label">Choose Cert...</label>
                                                 </div>
-                                                <input type="password" class="form-control mt-2" id="password" value="" textmode="Password" name="password" placeholder="Password">
-                                                <input type="text" class="form-control mt-2" id="Reason" value="" name="Reason" placeholder="Reason">
-                                                <input type="text" class="form-control mt-2" id="Contact" value="" name="Contact" placeholder="Contact">
-                                                <input type="text" class="form-control mt-2" id="Location" value="" name="Location" placeholder="Location">
+                                                <input type="password" class="form-control mt-2" id="password" value="" textmode="Password" name="password" placeholder="Password" required>
+                                                <input type="text" class="form-control mt-2" id="Reason" value="" name="Reason" placeholder="Reason" required>
+                                                <input type="text" class="form-control mt-2" id="Contact" value="" name="Contact" placeholder="Contact" required>
+                                                <input type="text" class="form-control mt-2" id="Location" value="" name="Location" placeholder="Location" required>
                                             }
                                         }
                                     }

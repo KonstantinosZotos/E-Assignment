@@ -202,6 +202,7 @@ namespace E_Assignment.Controllers
                 stream.Close();
                 streamFile.Close();
 
+                int signedNumber = 0;
                 //Changes the status to signed for the specific teacher
                 foreach (var teacher in diplomas[0].Teachers)
                 {
@@ -211,6 +212,17 @@ namespace E_Assignment.Controllers
                         _teacherRepository.Update(teacher);
 
                     }
+                    if (teacher.Sign)
+                    {
+                        signedNumber++;
+                    }
+                }
+                int teachersNumber = diplomas[0].Teachers.Count;
+                //Changes status to Signed when all signatures are signed
+                if(signedNumber == teachersNumber)
+                {
+                    diploma.Status = "Signed";
+                    _diplomaRepository.Update(diploma);
                 }
 
             }

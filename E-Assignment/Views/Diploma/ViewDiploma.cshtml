@@ -5,6 +5,9 @@
 <h1>@ViewBag.ErrorMessage</h1>
 @model E_Assignment.ViewModels.DiplomaViewModel
 
+
+<link rel="stylesheet" href="~/css/diploma.css" />
+
 <form enctype="multipart/form-data" asp-controller="Diploma" method="post">
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="album py-5">
@@ -29,12 +32,20 @@
                                 <input asp-for="Description" value="@Model.Description" hidden />
                             </div>
                             <div class="form-group col-md-8">
-                                <label class="font-weight-bold" asp-for="File"></label>
-                                <div class="custom-file">
-                                    <input asp-for="File" class="form-control custom-file-input" accept="application/pdf" />
-                                    <label class="custom-file-label">Choose File...</label>
-                                </div>
-                                
+                                @if (Model.Status != "Signed")
+                                {
+                                    <label class="font-weight-bold" asp-for="File"></label>
+                                    <div class="custom-file">
+                                        <input asp-for="File" class="form-control custom-file-input" accept="application/pdf" />
+                                        <label class="custom-file-label">Choose File...</label>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <label class="font-weight-bold" asp-for="File"></label>
+                                    <label>The diploma is signed and ready for download.</label>
+                                    @Html.ActionLink("Dowload", "DownloadFile", new { fileName = ViewData["diplomaName"] }, new { @class = "download" });
+                                }
                                 <div class="d-flex justify-content-between align-items-center mt-4">
                                     <div class="btn-group">
                                         <button type="submit" class="btn btn-sm btn-outline-secondary">Upload</button>

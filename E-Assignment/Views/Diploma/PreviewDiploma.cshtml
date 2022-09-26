@@ -58,6 +58,30 @@
                                         <input hidden asp-for="@diploma.FilePath" value="@diploma.FilePath" />
                                         <span asp-validation-for="@diploma.FilePath" class="text-danger"></span>
                                         @Html.ActionLink("Dowload", "DownloadFile", new { fileName = diploma.FilePath }, new { @class = "download" });
+                                        <br />
+                                        @foreach (var teacher in diploma.Teachers)
+                                        {
+                                            if (ViewData["Username"].Equals(teacher.Name))
+                                            {
+                                                if (teacher.Sign)
+                                                {
+                                                    <label class="font-weight-bold mt-2">The diploma is already signed.</label>
+                                                }
+                                                else
+                                                {
+                                                    <label class="font-weight-bold">Certificate</label>
+                                                    <h3>@ViewData["error"]</h3>
+                                                    <div class="custom-file">
+                                                        <input type="file" id="certificate" name="certificate" accept="application/pfx" class="form-control custom-file-input" required />
+                                                        <label class="custom-file-label">Choose Cert...</label>
+                                                    </div>
+                                                    <input type="password" class="form-control mt-2" id="password" value="" textmode="Password" name="password" placeholder="Password" required>
+                                                    <input type="text" class="form-control mt-2" id="Reason" value="" name="Reason" placeholder="Reason" required>
+                                                    <input type="text" class="form-control mt-2" id="Contact" value="" name="Contact" placeholder="Contact" required>
+                                                    <input type="text" class="form-control mt-2" id="Location" value="" name="Location" placeholder="Location" required>
+                                                }
+                                            }
+                                        }
                                     }
                                     else
                                     {
@@ -67,29 +91,7 @@
                                     }
                                     <br />
 
-                                    @foreach (var teacher in diploma.Teachers)
-                                    {
-                                        if (ViewData["Username"].Equals(teacher.Name))
-                                        {
-                                            if (teacher.Sign)
-                                            {
-                                                <label class="font-weight-bold">The diploma is already signed.</label>
-                                            }
-                                            else
-                                            {
-                                                <label class="font-weight-bold">Certificate</label>
-                                                <h3>@ViewData["error"]</h3>
-                                                <div class="custom-file">
-                                                    <input type="file" id="certificate" name="certificate" accept="application/pfx" class="form-control custom-file-input" required/>
-                                                    <label class="custom-file-label">Choose Cert...</label>
-                                                </div>
-                                                <input type="password" class="form-control mt-2" id="password" value="" textmode="Password" name="password" placeholder="Password" required>
-                                                <input type="text" class="form-control mt-2" id="Reason" value="" name="Reason" placeholder="Reason" required>
-                                                <input type="text" class="form-control mt-2" id="Contact" value="" name="Contact" placeholder="Contact" required>
-                                                <input type="text" class="form-control mt-2" id="Location" value="" name="Location" placeholder="Location" required>
-                                            }
-                                        }
-                                    }
+
 
 
                                     <div class="d-flex justify-content-between align-items-center mt-4">
@@ -101,7 +103,15 @@
                                                 {
                                                     if (!teacher.Sign)
                                                     {
-                                                        <button type="submit" class="btn btn-sm btn-outline-secondary">Sign</button>
+                                                        if (diploma.FilePath != null)
+                                                        {
+                                                            <button type="submit" class="btn btn-sm btn-outline-secondary">Sign</button>
+                                                        }
+                                                        else
+                                                        {
+                                                            <button type="submit" class="btn btn-sm btn-outline-secondary" disabled>Sign</button>
+                                                        }
+
                                                     }
                                                 }
                                             }

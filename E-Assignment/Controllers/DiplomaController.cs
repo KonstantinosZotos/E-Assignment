@@ -178,7 +178,8 @@ namespace E_Assignment.Controllers
             //Updates database that teacher has signed the diploma
             var diplomaTeachers = _diplomaRepository.GetDiplomaWithTeachers(id);
             var diplomas = diplomaTeachers.ToArray();
-            var signInUser = User.FindFirstValue(ClaimTypes.Name);            
+            var signInUser = User.FindFirstValue(ClaimTypes.Name);
+            //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             String rootFolder = hostingEnvironment.WebRootPath+ @"\diplomas\";
             String diplomaPath = rootFolder+diploma.FilePath;
             var pdfdocument = System.IO.File.OpenRead(diplomaPath);           

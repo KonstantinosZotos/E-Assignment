@@ -13,6 +13,6 @@ namespace E_Assignment.Models
         public string Name { get; set; }
         public int DiplomaId { get; set; }
         public Diploma Diploma { get; set; }
-        public bool Sign { get; set; }
+        public bool Sign { get; set; }        
     }
 }

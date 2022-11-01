@@ -26,23 +26,38 @@ namespace E_Assignment.Controllers
             string controller = "Home";
             var role = User.FindFirstValue(ClaimTypes.Role);
 
-            if (role.Equals("Student"))
+            if (role != null)
             {
-                page = "ShowDiplomasStudents";
-                controller = "Diploma";
+                if (role.Equals("Student"))
+                {
+                    page = "ShowDiplomasStudents";
+                    controller = "Diploma";
+                }
+                else if (role.Equals("Teacher"))
+                {
+                    page = "ShowDiplomas";
+                    controller = "Diploma";
+                }
+                else if (role.Equals("Admin"))
+                {
+                    page = "ListUsers";
+                    controller = "Administrator";
+                }
             }
-            else if (role.Equals("Teacher"))
+            else
             {
-                page = "ShowDiplomas";
-                controller = "Diploma";
-            }
-            else if (role.Equals("Admin"))
-            {
-                page = "ListUsers";
-                controller = "Administrator";
+                page = "UnauthorizedUser";
+                controller = "Home";
             }
 
+            
+
             return RedirectToAction(page,controller);
+        }
+
+        public IActionResult UnauthorizedUser()
+        {
+            return View();
         }
 
         public IActionResult Privacy()

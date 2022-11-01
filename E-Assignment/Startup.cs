@@ -1,4 +1,5 @@
 using E_Assignment.Data;
+using E_Assignment.Areas.Identity.Data;
 using E_Assignment.Models;
 using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Authorization;
@@ -72,7 +73,6 @@ namespace E_Assignment
             app.UseStaticFiles();
 
             app.UseRouting();
-
             
             app.UseAuthentication();
             app.UseAuthorization();

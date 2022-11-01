@@ -36,25 +36,6 @@
         </form>
     </div>
 </div>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@@sheerid/jslib@1/sheerid.css" type="text/css" />
-<script src="https://cdn.jsdelivr.net/npm/@@sheerid/jslib@1/sheerid.js"></script>
-<a onclick="displayVerification()">Confirm Eligibility</a>
-<script>
-    function displayVerification() {
-        const verificationUrl = 'https://services.sheerid.com/verify/628f9b5f87760016fb59158c/';
-        sheerId.loadInModal(
-            verificationUrl, {
-            mobileRedirect: true
-        });
-    };
-</script>
-<script>
-    sheerId.conversion.listenForVerificationId();
-</script>
-
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@@sheerid/jslib@1/sheerid.css" type="text/css" />
-<script src="https://cdn.jsdelivr.net/npm/@@sheerid/jslib@1/sheerid.js"></script>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
